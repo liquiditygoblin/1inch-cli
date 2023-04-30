@@ -139,6 +139,7 @@ class OneInch:
 
         tx = {
             'to': ONE_INCH_ROUTER,
+            'chainId': self.chain_id,
             'data': values["tx"]["data"],
             'gas': values["tx"]["gas"],
             'gasPrice': int(values["tx"]["gasPrice"]),
