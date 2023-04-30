@@ -136,12 +136,16 @@ class OneInch:
 
     def send_swap(self, from_token_address, to_token_address, amount, slippage=0.1):
         values = self.get_swap(from_token_address, to_token_address, amount, slippage)
-
+        value = 0
+        if from_token_address == NATIVE_TOKEN:
+            value = amount
+        
         tx = {
             'to': ONE_INCH_ROUTER,
             'chainId': self.chain_id,
             'data': values["tx"]["data"],
             'gas': values["tx"]["gas"],
+            'value': value,
             'gasPrice': int(values["tx"]["gasPrice"]),
             'nonce': self.w3.eth.get_transaction_count(self.account.address),
         }
