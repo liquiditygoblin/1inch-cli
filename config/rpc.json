@@ -1,6 +1,9 @@
 {
   "1": {
-    "infura": "https://mainnet.infura.io/v3/",
-    "flashbots": "https://rpc.flashbots.net"
+    "flashbots": "https://rpc.flashbots.net",
+    "llama": "https://eth.llamarpc.com",
+    "ankr": "https://rpc.ankr.com/eth",
+    "builder0x69": "https://rpc.builder0x69.io",
+    "securerpc": "https://api.securerpc.com/v1"
   }
 }
