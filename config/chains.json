@@ -1,0 +1,14 @@
+{
+  "ETHEREUM": {
+    "id": 1,
+    "explorer": "https://etherscan.io/",
+    "currency": "ETH",
+    "rpc": "https://mainnet.infura.io/v3/5ffc47f65c4042ce847ef66a3fa70d4c"
+  },
+  "ARBITRUM": {
+    "id": 42161,
+    "explorer": "https://arbiscan.io/",
+    "currency": "ETH",
+    "rpc": "https://arb1.arbitrum.io/rpc"
+  }
+}

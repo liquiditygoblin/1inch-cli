@@ -1,0 +1,6 @@
+{
+  "1": {
+    "infura": "https://mainnet.infura.io/v3/",
+    "flashbots": "https://rpc.flashbots.net"
+  }
+}

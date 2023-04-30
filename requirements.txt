@@ -1,0 +1,4 @@
+clint~=0.5.1
+pyfiglet~=0.8.post1
+requests~=2.29.0
+web3~=6.2.0
