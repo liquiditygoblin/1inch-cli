@@ -4,7 +4,7 @@
 
 A command-line interface for the [1inch.exchange](https://1inch.exchange/) decentralized exchange aggregator.
 
-The 1inch cli is a Python script that lets you interact with the 1inch API from your terminal. It provides a quick way to swap tokens, check balances, and get quotes. 
+Supports on-chain trading and advanced order types, letting you TWAP in to $PEPE and take profit with a trigger order!
 
 ## Requirements
 
