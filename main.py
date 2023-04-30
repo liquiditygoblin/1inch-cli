@@ -211,8 +211,8 @@ class CLI:
         if self.amount_in < 0:
             self.amount_in = self.one_inch.get_balance(self.token_in['address'])
         twap_amount = int(self.amount_in / trade_count)
-
-        print(f"TWAPing, {OneInch.parse_float(twap_amount/10**self.token_in['decimals'])} {self.token_in['symbol']}, {trade_count} trades, {interval} seconds interval, {slippage}% slippage")
+        token_twap_amount = twap_amount / 10 ** self.token_in['decimals']
+        print(f"TWAPing, {OneInch.parse_float(token_twap_amount)} {self.token_in['symbol']}, {trade_count} trades, {interval} seconds interval, {slippage}% slippage")
         cont = prompt.yn("Continue with swap?", default="y")
         if not cont:
             print("Exiting...")
@@ -223,8 +223,8 @@ class CLI:
             print(f"Trade {t+1}/{trade_count}")
             quote = self.one_inch.get_quote(self.token_in['address'], self.token_out['address'], twap_amount)
             amount_out = int(quote['toTokenAmount']) / 10 ** self.token_out['decimals']
-            price_out = amount_out / self.token_amount_in
-            price_in = self.token_amount_in / amount_out
+            price_out = amount_out /token_twap_amount
+            price_in = token_twap_amount/ amount_out
             ct = datetime.datetime.now()
             print(f"\nAmount out: {OneInch.parse_float(amount_out)} {self.token_out['symbol']}\n")
             print(
