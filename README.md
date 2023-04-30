@@ -6,6 +6,8 @@ A command-line interface for the [1inch.exchange](https://1inch.exchange/) decen
 
 Supports on-chain trading and advanced order types, letting you TWAP in to $PEPE and take profit with a trigger order!
 
+WARNING: this is in beta, txs could revert, things might break, please be careful with your wallet and your funds when using this, I am not responsible for any losses
+
 ## Requirements
 
 * Python 3.8 or higher
