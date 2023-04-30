@@ -8,7 +8,7 @@ Supports on-chain trading and advanced order types, letting you TWAP in to $PEPE
 
 WARNING: this is in beta, txs could revert, things might break, please be careful with your wallet and your funds when using this, I am not responsible for any losses
 
-1inch recently blocked cloud providers from accessing theit API, you may run into issues running this from a major data centre, please open a PR if you have any work arounds!
+1inch recently blocked cloud providers from accessing their API, you may run into issues running this from a major data centre, please open a PR if you have any work arounds!
 
 ## Requirements
 
