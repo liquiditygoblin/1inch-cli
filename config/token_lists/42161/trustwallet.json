@@ -47,6 +47,15 @@
             "symbol": "DAI",
             "decimals": 18,
             "logoURI": "https://assets.trustwalletapp.com/blockchains/arbitrum/assets/0xda10009cbd5d07dd0cecc66161fc93d7c9000da1/logo.png"
+        },
+        {
+            "asset": "c10042221_t0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1",
+            "type": "ARBITRUM",
+            "address": "0x10393c20975cF177a3513071bC110f7962CD67da",
+            "name": "Jones DAO",
+            "symbol": "JONES",
+            "decimals": 18,
+            "logoURI": ""
         }
     ],
     "version": {

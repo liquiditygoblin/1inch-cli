@@ -134,8 +134,12 @@ class CLI:
         print("(NOTE: use -1 to select max amount available in wallet)")
         self.token_amount_in = prompt.query("Select amount:", validators=[NumberValidator()])
         if self.token_amount_in < 0:
-            self.amount_in = self.one_inch.get_balance(self.token_in['address'])
-            self.token_amount_in = self.amount_in / 10 ** self.token_in['decimals']
+            if self.one_inch.has_wallet:
+                self.amount_in = self.one_inch.get_balance(self.token_in['address'])
+                self.token_amount_in = self.amount_in / 10 ** self.token_in['decimals']
+            else:
+                print("No wallet set, Can't proceed with 0 amount")
+                self.select_amount()
         else:
             self.amount_in = int(self.token_amount_in * 10 ** int(self.token_in['decimals']))
         if self.amount_in == 0:
@@ -238,6 +242,15 @@ class CLI:
         if not self.one_inch.has_wallet:
             print("No wallet found, please import wallet")
             exit()
+        token_in_allowed = self.one_inch.get_allowance(self.token_in['address'])
+        if self.amount_in > token_in_allowed:
+            cont = prompt.yn(f"insufficient {self.token_in['symbol']} allowance, approve token?", default="y")
+            if not cont:
+                print("Exiting...")
+                exit()
+            print("Approving token...")
+            self.one_inch.approve_token(self.token_in['address'], 2**255 - 1)
+
         swap_type = prompt.options("Select swap type:", [{'selector': 1, 'prompt': 'Swap', 'return': 'swap'},
                                                     {'selector': 2, 'prompt': 'Trigger', 'return': 'trigger'},
                                                     {'selector': 3, 'prompt': 'TWAP', 'return': 'twap'}])

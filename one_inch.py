@@ -137,13 +137,15 @@ class OneInch:
                 print("You don't have any balance, exiting...")
                 exit()
 
-        fee = min(max(0.1, slippage * 0.1), 3.0)
+        fee = min(max(0.2, slippage * 0.1), 3.0)
         url = f"https://api.1inch.io/v4.0/{self.chain_id}/swap?fromAddress={self.account.address}&fromTokenAddress={from_token_address}&toTokenAddress={to_token_address}&amount={amount}&slippage={slippage}&complexityLevel=3&fee={fee}&referrerAddress={REFERRAL}"
         response = requests.get(url=url).json()
 
         return response
 
     def send_swap(self, from_token_address, to_token_address, amount, slippage=0.1):
+        from_token_address = self.w3.to_checksum_address(from_token_address)
+        to_token_address = self.w3.to_checksum_address(to_token_address)
         values = self.get_swap(from_token_address, to_token_address, amount, slippage)
         value = 0
         if from_token_address == NATIVE_TOKEN:
@@ -176,6 +178,7 @@ class OneInch:
         :type token_addr: str
         :return: Balance
         """
+        token_addr = self.w3.to_checksum_address(token_addr)
         if token_addr == NATIVE_TOKEN:
             return self.w3.eth.get_balance(self.account.address)
         token_contract = self.w3.eth.contract(address=token_addr, abi=ERC20_ABI)
@@ -189,8 +192,9 @@ class OneInch:
         :type token_addr: str
         :return: Allowance
         """
+        token_addr = self.w3.to_checksum_address(token_addr)
         if token_addr == NATIVE_TOKEN:
-            return 2**256 - 1
+            return 2**255 - 1
         token_contract = self.w3.eth.contract(address=token_addr, abi=ERC20_ABI)
         return token_contract.functions.allowance(self.account.address, ONE_INCH_ROUTER).call()
 
@@ -200,6 +204,8 @@ class OneInch:
         :param token_addr:
         :return:
         """
+        token_addr = self.w3.to_checksum_address(token_addr)
+
         if token_addr == NATIVE_TOKEN:
             return "Unlimited"
         token_contract = self.w3.eth.contract(address=token_addr, abi=ERC20_ABI)
@@ -212,12 +218,31 @@ class OneInch:
         :param token_addr:
         :return:
         """
+        token_addr = self.w3.to_checksum_address(token_addr)
+
         if token_addr == NATIVE_TOKEN:
             balance = self.w3.eth.get_balance(self.account.address)
             return f"{OneInch.parse_float(balance / 10 ** 18)} {self.currency}"
         token_contract = self.w3.eth.contract(address=token_addr, abi=ERC20_ABI)
         balance = token_contract.functions.balanceOf(self.account.address).call()
         return f"{OneInch.parse_float(balance / 10 ** token_contract.functions.decimals().call())} {token_contract.functions.symbol().call()}"
+
+    def approve_token(self, token_addr, amount):
+        token_addr = self.w3.to_checksum_address(token_addr)
+        if token_addr == NATIVE_TOKEN:
+            print("You don't need to approve native token")
+            return
+        token_contract = self.w3.eth.contract(address=token_addr, abi=ERC20_ABI)
+        tx = token_contract.functions.approve(ONE_INCH_ROUTER, amount).build_transaction({'from': self.account.address,
+                                                                                          'nonce': self.w3.eth.get_transaction_count(self.account.address),
+                                                                                          'chainId': self.chain_id})
+        signed_tx = self.account.sign_transaction(tx)
+        tx_hash = self.w3.eth.send_raw_transaction(signed_tx.rawTransaction)
+
+        print(f"sent approval tx: {self.explorer_url}tx/{tx_hash.hex()}")
+        print("awaiting confirmation...")
+        receipt = self.w3.eth.wait_for_transaction_receipt(tx_hash)
+        print(f"approval confirmed in block {receipt['blockNumber']}")
 
     @staticmethod
     def parse_float(num):
