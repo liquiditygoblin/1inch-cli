@@ -211,6 +211,7 @@ class CLI:
                     print("Price below target, swapping")
                     self.one_inch.send_swap(self.token_in['address'], self.token_out['address'], self.amount_in, slippage)
                     break
+        self.select_pair()
 
     def twap(self, interval, slippage, trade_count):
         if self.amount_in < 0:
@@ -235,7 +236,12 @@ class CLI:
             print(
                 f"[{ct}] price: {OneInch.parse_float(price_out)} {self.token_out['symbol']}/{self.token_in['symbol']} | {OneInch.parse_float(price_in)} {self.token_in['symbol']}/{self.token_out['symbol']}")
             self.one_inch.send_swap(self.token_in['address'], self.token_out['address'], twap_amount, slippage)
-            time.sleep(interval)
+            if t < trade_count - 1:
+                print(f"Waiting {interval} seconds for next trade")
+                time.sleep(interval)
+            else:
+                print("All trades completed")
+        self.select_pair()
 
 
     def swap(self):
@@ -271,6 +277,7 @@ class CLI:
                 print("Exiting...")
                 exit()
             self.one_inch.send_swap(self.token_in['address'], self.token_out['address'], self.amount_in, slippage)
+            self.select_pair()
         elif swap_type == "trigger":
             price_type = prompt.options("Select price direction:", [{'selector': 1, 'prompt': f"{self.token_in['symbol']}/{self.token_out['symbol']}", 'return': "forward"},
                                                             {'selector': 2, 'prompt': f"{self.token_out['symbol']}/{self.token_in['symbol']}", 'return': "backward"}])
