@@ -1,3 +1,4 @@
+import getpass
 import requests
 from eth_account import Account
 from eth_account.signers.local import LocalAccount
@@ -5,16 +6,12 @@ from web3 import Web3, EthereumTesterProvider
 import web3
 from web3.middleware import construct_sign_and_send_raw_middleware
 import os
-import json
+
+from util import open_json
 
 
-def load_json_file(file_path):
-    with open(file_path) as f:
-        return json.load(f)
-
-
-ERC20_ABI = load_json_file("abi/ERC20.json")
-ONE_INCH_ABI = load_json_file("abi/AggregationRouterV5.json")
+ERC20_ABI = open_json("abi/ERC20.json")
+ONE_INCH_ABI = open_json("abi/AggregationRouterV5.json")
 ONE_INCH_ROUTER = "0x1111111254fb6c44bAC0beD2854e76F90643097d"
 REFERRAL = "0xdb5D4e46AeE4Eb45768460abeEb03b6fB813819d"
 
@@ -43,21 +40,33 @@ class OneInch:
         self.one_inch_contract = self.w3.eth.contract(address=ONE_INCH_ROUTER, abi=ONE_INCH_ABI)
 
         private_key = os.environ.get("PRIVATE_KEY")
+        keystore = os.environ.get("KEYSTORE")
         self.has_wallet = False
-        if private_key is None:
-            print("PRIVATE_KEY environment variable is not set, continuing without it")
-            self.has_wallet = False
-        elif private_key.startswith("0x"):
+
+        if private_key is not None:
+            if not private_key.startswith("0x"):
+                raise Exception("PRIVATE_KEY must start with 0x")
+
             self.account = Account.from_key(private_key)
+            self.has_wallet = True
+
+        elif keystore is not None:
+
+            priv_key = Account.decrypt(open_json(keystore), getpass.getpass(prompt='Input keystore password: '))
+            self.account = Account.from_key(priv_key)
+            self.has_wallet = True
+        
+        else:
+            print("PRIVATE_KEY/KEYSTORE environment variables are not set, continuing without them")
+            self.has_wallet = False
+
+        if self.has_wallet:
             self.w3.middleware_onion.add(construct_sign_and_send_raw_middleware(self.account))
 
             print(f"Your hot wallet address is {self.account.address}")
             self.balance = self.w3.eth.get_balance(self.account.address)
             print(
                 f"Your hot wallet balance is {OneInch.parse_float(self.w3.from_wei(self.balance, 'ether'))} {self.currency}")
-            self.has_wallet = True
-        else:
-            raise ("PRIVATE_KEY must start with 0x")
 
     def get_quote(self, from_token_address, to_token_address, amount):
         """
@@ -212,6 +221,9 @@ class OneInch:
 
     @staticmethod
     def parse_float(num):
-        integer_part = int(num)
-        _, decimal_part = f"{(num - integer_part):.4}".split(".")
-        return f"{integer_part}.{decimal_part}"
+        # integer_part = int(num)
+        # _, decimal_part = f"{(num - integer_part):.4}".split(".")
+        # return f"{integer_part}.{decimal_part}"
+
+        # Native format string functionality can be used to format Decimals when printing
+        return f"{num:.4f}"
