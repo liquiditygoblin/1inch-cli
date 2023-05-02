@@ -161,15 +161,20 @@ class CLI:
         print(f"[{ct}] price: {OneInch.parse_float(price_out)} {self.token_out['symbol']}/{self.token_in['symbol']} | {OneInch.parse_float(price_in)} {self.token_in['symbol']}/{self.token_out['symbol']}")
 
     def watch(self):
-        while True:
-            quote = self.one_inch.get_quote(self.token_in['address'], self.token_out['address'], self.amount_in)
-            amount_out = int(quote['toTokenAmount']) / 10 ** self.token_out['decimals']
-            price_out = amount_out / self.token_amount_in
-            price_in = self.token_amount_in / amount_out
-            ct = datetime.datetime.now()
-            print(
-                f"[{ct}] price: {OneInch.parse_float(price_out)} {self.token_out['symbol']}/{self.token_in['symbol']} | {OneInch.parse_float(price_in)} {self.token_in['symbol']}/{self.token_out['symbol']}")
-            time.sleep(5)
+        try:
+            while True:
+                quote = self.one_inch.get_quote(self.token_in['address'], self.token_out['address'], self.amount_in)
+                amount_out = int(quote['toTokenAmount']) / 10 ** self.token_out['decimals']
+                price_out = amount_out / self.token_amount_in
+                price_in = self.token_amount_in / amount_out
+                ct = datetime.datetime.now()
+                print(
+                    f"[{ct}] price: {OneInch.parse_float(price_out)} {self.token_out['symbol']}/{self.token_in['symbol']} | {OneInch.parse_float(price_in)} {self.token_in['symbol']}/{self.token_out['symbol']}")
+                time.sleep(5)
+        
+        except KeyboardInterrupt:
+            print("Going back to action menu\n")
+            self.select_action()
 
 
     def trigger(self, price_type, direction, price, slippage):
