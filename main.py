@@ -3,7 +3,6 @@
 
 import sys
 import os
-import json
 import time
 import datetime
 
@@ -15,6 +14,7 @@ from pyfiglet import Figlet
 
 f = Figlet(font='big')
 from one_inch import OneInch
+from util import open_json
 from pprint import pprint
 
 sys.path.insert(0, os.path.abspath('..'))
@@ -22,10 +22,6 @@ sys.path.insert(0, os.path.abspath('..'))
 from clint.textui import prompt, puts, colored, validators
 
 
-def open_json(file):
-    with open(file, 'r') as f:
-        data = json.load(f)
-    return data
 
 
 def generate_selector(data):
