@@ -212,6 +212,9 @@ class OneInch:
 
     @staticmethod
     def parse_float(num):
-        integer_part = int(num)
-        _, decimal_part = f"{(num - integer_part):.4}".split(".")
-        return f"{integer_part}.{decimal_part}"
+        # integer_part = int(num)
+        # _, decimal_part = f"{(num - integer_part):.4}".split(".")
+        # return f"{integer_part}.{decimal_part}"
+
+        # Native format string functionality can be used to format Decimals when printing
+        return f"{num:.4f}"
