@@ -281,7 +281,6 @@ class CLI:
 
 
     def select_action(self):
-        self.generate_one_inch()
         self.fetch_quote()
         action = prompt.options("Select action:", [{'selector': 1, 'prompt': 'Swap', 'return': 'swap'},
                                                      {'selector': 2, 'prompt': 'Change amount', 'return': 'amount'},
