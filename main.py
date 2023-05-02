@@ -262,10 +262,10 @@ class CLI:
                                                     {'selector': 3, 'prompt': 'TWAP', 'return': 'twap'}])
         slippage = prompt.options("Select slippage:", [{'selector': 1, 'prompt': 'default - 0.5%', 'return': 0.5},
                                                     {'selector': 2, 'prompt': 'high - 5%', 'return': 5.0},
-                                                    {'selector': 2, 'prompt': 'medium - 1%', 'return': 1.0},
-                                                    {'selector': 2, 'prompt': 'low - 0.1%', 'return': 0.1},
-                                                    {'selector': 2, 'prompt': 'meme coin - 20%', 'return': 20},
-                                                    {'selector': 3, 'prompt': 'custom', 'return': -1}])
+                                                    {'selector': 3, 'prompt': 'medium - 1%', 'return': 1.0},
+                                                    {'selector': 4, 'prompt': 'low - 0.1%', 'return': 0.1},
+                                                    {'selector': 5, 'prompt': 'meme coin - 20%', 'return': 20},
+                                                    {'selector': 6, 'prompt': 'custom', 'return': -1}])
         if slippage == -1:
             slippage = prompt.query("Select slippage:", validators=[NumberValidator()])
             slippage = max(min(slippage, 100), 0.05)
@@ -291,9 +291,9 @@ class CLI:
         elif swap_type == "twap":
             interval = prompt.options("Select interval:", [{'selector': 1, 'prompt': '1 minute', 'return': 60},
                                                            {'selector': 2, 'prompt': '5 minutes', 'return': 300},
-                                                           {'selector': 2, 'prompt': '15 minutes', 'return': 900},
-                                                           {'selector': 2, 'prompt': '1 hour', 'return': 3600},
-                                                           {'selector': 3, 'prompt': 'custom', 'return': -1}])
+                                                           {'selector': 3, 'prompt': '15 minutes', 'return': 900},
+                                                           {'selector': 4, 'prompt': '1 hour', 'return': 3600},
+                                                           {'selector': 5, 'prompt': 'custom', 'return': -1}])
             if interval == -1:
                 interval = prompt.query("Select interval seconds:", validators=[validators.IntegerValidator()])
             trade_count = prompt.query("Select number of trades:", validators=[validators.IntegerValidator()])
