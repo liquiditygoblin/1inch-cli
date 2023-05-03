@@ -153,6 +153,7 @@ class CLI:
     def fetch_quote(self):
         print("fetching quote...")
         quote = self.one_inch.get_quote(self.token_in['address'], self.token_out['address'], self.amount_in)
+        pprint(quote)
         amount_out = int(quote['toTokenAmount']) / 10 ** self.token_out['decimals']
         price_out = amount_out / self.token_amount_in
         price_in = self.token_amount_in / amount_out

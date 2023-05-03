@@ -11,7 +11,7 @@
     "currency": "ETH",
     "rpc": "https://arb1.arbitrum.io/rpc"
   },
-  "BNB": {
+  "BSC": {
     "id": 56,
     "explorer": "https://bscscan.com/",
     "currency": "BNB",
