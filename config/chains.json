@@ -10,5 +10,11 @@
     "explorer": "https://arbiscan.io/",
     "currency": "ETH",
     "rpc": "https://arb1.arbitrum.io/rpc"
+  },
+  "BNB": {
+    "id": 56,
+    "explorer": "https://bscscan.com/",
+    "currency": "BNB",
+    "rpc": "https://1rpc.io/bnb"
   }
 }

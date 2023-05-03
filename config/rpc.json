@@ -5,5 +5,11 @@
     "ankr": "https://rpc.ankr.com/eth",
     "builder0x69": "https://rpc.builder0x69.io",
     "securerpc": "https://api.securerpc.com/v1"
+  },
+  "56": {
+    "1rpc": "https://1rpc.io/bnb",
+    "ankr": "https://rpc.ankr.com/bsc",
+    "blastApi": "https://bsc-mainnet.public.blastapi.io",
+    "publicNode": "https://bsc.publicnode.com"
   }
 }
