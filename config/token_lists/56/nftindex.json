@@ -1,0 +1,137 @@
+{
+    "name": "Liquid Collectibles Index List",
+    "logoURI": "https://raw.githubusercontent.com/ApeSwapFinance/apeswap-token-lists/main/assets/LICO.svg",
+    "timestamp": "2022-09-01T15:41:29.665Z",
+    "keywords": [
+      "nft",
+      "index",
+      "lico"
+    ],
+    "version": {
+      "major": 1,
+      "minor": 10,
+      "patch": 5
+    },
+    "tokens": [
+      {
+        "name": "Liquid Monsters Index",
+        "symbol": "LIMOi",
+        "address": "0x79534dedae71b7b672fc997b4a77748ae5fdf5ad",
+        "chainId": 56,
+        "decimals": 18,
+        "logoURI": "https://raw.githubusercontent.com/ApeSwapFinance/apeswap-token-lists/main/assets/LIMO.svg"
+      },
+      {
+        "name": "Non Fungible Apes Index",
+        "symbol": "NFAi",
+        "address": "0x4c48a4d089d13cb24a8a250c7051e8a3f8687460",
+        "chainId": 56,
+        "decimals": 18,
+        "logoURI": "https://raw.githubusercontent.com/ApeSwapFinance/apeswap-token-lists/main/assets/NFA.png"
+      },
+      {
+        "name": "Monsta Party Index",
+        "symbol": "MPNFTi",
+        "address": "0x4169a012c9620ed6c8c491d75f174a5cd94e1e47",
+        "chainId": 56,
+        "decimals": 18,
+        "logoURI": "https://raw.githubusercontent.com/ApeSwapFinance/apeswap-token-lists/main/assets/MPNFTi.png"
+      },
+      {
+        "name": "The Bull Society Index",
+        "symbol": "BULLi",
+        "address": "0xe6449798ad79B23DF2244af1A0032dc845a84892",
+        "chainId": 56,
+        "decimals": 18,
+        "logoURI": "https://raw.githubusercontent.com/ApeSwapFinance/apeswap-token-lists/main/assets/BULLi.png"
+      },
+      {
+        "name": "Neural Pepe v2 Index",
+        "symbol": "NPi",
+        "address": "0x2a5dBc90DBcabd67D3dE0C13Dd04E554A76b000B",
+        "chainId": 56,
+        "decimals": 18,
+        "logoURI": "https://raw.githubusercontent.com/ApeSwapFinance/apeswap-token-lists/main/assets/NPi.png"
+      },
+      {
+        "name": "CyberBearz Army Index",
+        "symbol": "BEARZi",
+        "address": "0xe794cf0b41ed375319276b5da2dc8551993e41f9",
+        "chainId": 56,
+        "decimals": 18,
+        "logoURI": "https://raw.githubusercontent.com/ApeSwapFinance/apeswap-token-lists/main/assets/BEARZi.png"
+      },
+      {
+        "name": "Non-Fungible Banana Index",
+        "symbol": "NFBi",
+        "address": "0x45d957a094c73a0d12bccab279f78c1d253d8f56",
+        "chainId": 56,
+        "decimals": 18,
+        "logoURI": "https://raw.githubusercontent.com/ApeSwapFinance/apeswap-token-lists/main/assets/NFBi.png"
+      },
+      {
+        "name": "WolfAngers Index",
+        "symbol": "WOFAi",
+        "address": "0x9d176dee855e27ab5ad1541ae212030c4995af50",
+        "chainId": 56,
+        "decimals": 18,
+        "logoURI": "https://raw.githubusercontent.com/ApeSwapFinance/apeswap-token-lists/main/assets/WOFAi.png"
+      },
+      {
+        "name": "ExtensionPunks Index",
+        "symbol": "EXTPUNKi",
+        "address": "0xe63a2163aDD5E8D950d952158bFF06334e340344",
+        "chainId": 56,
+        "decimals": 18,
+        "logoURI": "https://raw.githubusercontent.com/ApeSwapFinance/apeswap-token-lists/main/assets/EXTPUNKi.png"
+      },
+      {
+        "name": "Into the HIFI-Verse Index",
+        "symbol": "HIFIi",
+        "address": "0xf949e738d1ed7cf33aa8d2dd3117f52ed6c34a83",
+        "chainId": 56,
+        "decimals": 18,
+        "logoURI": "https://raw.githubusercontent.com/ApeSwapFinance/apeswap-token-lists/main/assets/HIFIi.png"
+      },
+      {
+        "name": "Cross Bosses Index",
+        "symbol": "CBi",
+        "address": "0x6ae448ec22f1507be2243fe51e36fdadd2b3ed8a",
+        "chainId": 56,
+        "decimals": 18,
+        "logoURI": "https://raw.githubusercontent.com/ApeSwapFinance/apeswap-token-lists/main/assets/CBi.png"
+      },
+      {
+        "name": "Non-Fungible Moonbird Index",
+        "symbol": "NFMi",
+        "address": "0x05b1b1ae4e27aa79f07a78451c523241d26a7bdb",
+        "chainId": 56,
+        "decimals": 18,
+        "logoURI": "https://raw.githubusercontent.com/ApeSwapFinance/apeswap-token-lists/main/assets/NFMi.png"
+      },
+      {
+        "name": "Trippy Trunkz Ivory Club Index",
+        "symbol": "TTICi",
+        "address": "0xD012b16AA348933DA02cea26e60DAc4d722D7BD8",
+        "chainId": 56,
+        "decimals": 18,
+        "logoURI": "https://raw.githubusercontent.com/ApeSwapFinance/apeswap-token-lists/main/assets/TTICi.png"
+      },
+      {
+        "name": "HobosOnBSC Index",
+        "symbol": "HOBOi",
+        "address": "0xffc4e0b3443989a3983290306917923a30c38ae0",
+        "chainId": 56,
+        "decimals": 18,
+        "logoURI": "https://raw.githubusercontent.com/ApeSwapFinance/apeswap-token-lists/main/assets/HOBOi.png"
+      },
+      {
+        "name": "Ugliens Index",
+        "symbol": "UGLIENi",
+        "address": "0x740021f0cc204da61942f2705464698366500bb8",
+        "chainId": 56,
+        "decimals": 18,
+        "logoURI": "https://raw.githubusercontent.com/ApeSwapFinance/apeswap-token-lists/main/assets/UGLIENi.png"
+      }
+    ]
+  }
