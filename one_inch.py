@@ -244,6 +244,17 @@ class OneInch:
         receipt = self.w3.eth.wait_for_transaction_receipt(tx_hash)
         print(f"approval confirmed in block {receipt['blockNumber']}")
 
+    def get_token(self, string):
+        try:
+            addr = self.w3.to_checksum_address(string)
+            token_contract = self.w3.eth.contract(address=addr, abi=ERC20_ABI)
+            symbol = token_contract.functions.symbol().call()
+            name = token_contract.functions.name().call()
+            decimals = token_contract.functions.decimals().call()
+
+            return {'address': addr, 'symbol': symbol, 'name': name, 'decimals': decimals}
+        except:
+            return None
     @staticmethod
     def parse_float(num):
         # integer_part = int(num)

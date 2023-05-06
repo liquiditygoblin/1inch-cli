@@ -102,6 +102,14 @@ class CLI:
                 print(
                     f"Selected token: {selected_token['symbol']}\nName: {selected_token['name']}\nAddress: {self.explorer}\nDecimals: {selected_token['decimals']}\n")
                 return selected_token
+            potential_token = self.one_inch.get_token(from_symbol)
+            if potential_token is not None:
+                # user pasted address, load token from chain
+                print(f"Token found: {potential_token['symbol']}, use at your own risk")
+                selected_token = potential_token
+                print(
+                    f"Selected token: {selected_token['symbol']}\nName: {selected_token['name']}\nAddress: {self.explorer}token/{selected_token['address']}\nDecimals: {selected_token['decimals']}\n")
+                return selected_token
             tokens = []
             for token in self.token_list['tokens']:
                 if token['symbol'] == from_symbol.upper():
