@@ -5,6 +5,7 @@ __pycache__/
 .idea/
 .idea
 .idea/.gitignore
+keystore.json
 # C extensions
 *.so
 

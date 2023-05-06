@@ -6,6 +6,7 @@ from web3 import Web3, EthereumTesterProvider
 import web3
 from web3.middleware import construct_sign_and_send_raw_middleware
 import os
+import json
 
 from util import open_json
 
@@ -39,10 +40,41 @@ class OneInch:
 
         self.one_inch_contract = self.w3.eth.contract(address=ONE_INCH_ROUTER, abi=ONE_INCH_ABI)
 
-        private_key = os.environ.get("PRIVATE_KEY")
-        keystore = os.environ.get("KEYSTORE")
         self.has_wallet = False
+        keystore_file = './keystore.json'
+        if os.path.isfile(keystore_file):
+            priv_key = Account.decrypt(open_json(keystore_file), getpass.getpass(prompt='Input keystore password: '))
+            self.account = Account.from_key(priv_key)
+            self.has_wallet = True
+        else:
+            print("keystore file not found, creating one")
+            private_key = getpass.getpass(prompt='Input private key: ')
+            if not private_key.startswith("0x"):
+                private_key = "0x" + private_key
+            try:
+                self.account = Account.from_key(private_key)
+            except:
+                print("invalid private key, continuing without...")
+                return
+            print(f"private key valid, account: {self.explorer_url}address/{self.account.address}\ncreating keystore file")
+            for i in range(3):
+                password = getpass.getpass("Enter a password for the keystore file: ")
+                password2 = getpass.getpass("Confirm password: ")
 
+                # Check that the passwords match
+                if password != password2:
+                    print("Passwords do not match")
+                    print*(f"Please try again, attempt{i+2}/3")
+                else:
+                    break
+            if password != password2:
+                print("Passwords do not match, continueing without...")
+                return
+            keystore = Account.encrypt(private_key, password=password)
+            with open(keystore_file, 'w') as f:
+                f.write(json.dumps(keystore))
+            self.has_wallet = True
+        """
         if private_key is not None:
             if not private_key.startswith("0x"):
                 raise Exception("PRIVATE_KEY must start with 0x")
@@ -59,7 +91,7 @@ class OneInch:
         else:
             print("PRIVATE_KEY/KEYSTORE environment variables are not set, continuing without them")
             self.has_wallet = False
-
+        """
         if self.has_wallet:
             self.w3.middleware_onion.add(construct_sign_and_send_raw_middleware(self.account))
 
