@@ -16,6 +16,25 @@ WARNING: this is in beta, txs could revert, things might break, please be carefu
 
 ## Installation
 
+
+### Install from script (recommended)
+
+paste the following into your terminal to install 1inch-cli
+```commandline
+curl -L https://raw.githubusercontent.com/liquiditygoblin/1inch-cli/main/install.sh | bash
+```
+change directory to 1inch-cli
+```commandline
+cd  1inch-cli
+```
+Then to run 1inch-cli just run
+```commandline
+./run.sh
+```
+	
+
+### Install from source
+
 Clone the repository:
 
 ```

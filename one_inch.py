@@ -251,4 +251,4 @@ class OneInch:
         # return f"{integer_part}.{decimal_part}"
 
         # Native format string functionality can be used to format Decimals when printing
-        return f"{num:.4f}"
+        return f"{num:.10f}"

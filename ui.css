@@ -1,0 +1,33 @@
+Screen {
+    layout: grid;
+    grid-size: 10;
+}
+
+#chart {
+    column-span: 8;
+    row-span: 6;
+}
+
+#cli {
+    column-span: 8;
+    row-span: 3;
+}
+
+#input {
+    column-span: 8;
+    row-span: 1;
+}
+#trades {
+    column-span: 2;
+    row-span: 6;
+}
+
+#gas {
+    column-span: 2;
+    row-span: 4;
+}
+
+.box {
+    height: 100%;
+    border: solid green;
+}

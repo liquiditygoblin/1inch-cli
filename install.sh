@@ -2,14 +2,20 @@
 
 # Exit immediately if a pipeline (see Pipelines), which may consist of a single simple command (see Simple Commands), a list (see Lists of Commands), or a compound command (see Compound Commands) returns a non-zero status.
 set -e
+# Tries to install python3, git and virtualenv. If they're already installed, nothing happens
 
 case "$OSTYPE" in
   linux*)
-    echo "### Starting installation of Goblin Trading CLI...";;
+    echo "### Starting installation of Goblin Trading CLI...";
+    sudo apt -qq update;
+    sudo apt -qq install python3 git python3-virtualenv -y;;
+  darwin*)
+      echo "### Starting installation of Goblin Trading CLI..." ;;
+
   *)
-    echo "This script only works on linux for now."; exit 1;;
+    echo "This script only works on linux or OSX for now."; exit 1;;
 #   solaris*) echo "SOLARIS" ;;
-#   darwin*)  echo "OSX" ;; 
+
 #   bsd*)     echo "BSD" ;;
 #   msys*)    echo "WINDOWS" ;;
 #   cygwin*)  echo "ALSO WINDOWS" ;;
@@ -20,9 +26,7 @@ REPO_URL="https://github.com/liquiditygoblin/1inch-cli"
 REPO_PATH="./1inch-cli/"
 VENV_PATH="./.venv/"
 
-# Tries to install python3, git and virtualenv. If they're already installed, nothing happens
-sudo apt -qq update
-sudo apt -qq install python3 git python3-virtualenv -y
+
 
 # If repo directory doesn't exist, clone the repo
 if [ ! -d "$REPO_PATH" ]; then
@@ -34,7 +38,7 @@ cd $REPO_PATH
 
 if [ ! -d "$VENV_PATH" ] || [ ! -f "$VENV_PATH/bin/activate" ]; then
     # Create virtualenv inside project folder
-    python3 -m virtualenv -p python3 $VENV_PATH
+    python3 -m venv $VENV_PATH
 fi
 
 # Source virtualenv
@@ -47,5 +51,5 @@ $VENV_PATH/bin/python -m pip install -r requirements.txt -q
 chmod u+x run.sh
 
 
-echo "Goblin Trading CLI installed"
-echo "To run Goblin Trading CLI simply execute ./run.sh"
+echo "\nGoblin Trading CLI installed"
+echo "To run Goblin Trading CLI simply execute ./run.sh inside the ./1inch-cli directory"
