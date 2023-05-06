@@ -332,5 +332,10 @@ class CLI:
 
     def fetch_token_balance(self):
         self.one_inch.get_token_balance(self.token_in['address'])
+
+
 if __name__ == '__main__':
-    cli = CLI()
+    try:
+        cli = CLI()
+    except KeyboardInterrupt:
+        pass
