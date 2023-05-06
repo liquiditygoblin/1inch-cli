@@ -32,7 +32,10 @@ Then to run 1inch-cli just run
 ./run.sh
 ```
 	
+Upon running the script for the first time, you will be prompted to create a keystore, a keystore is a password protected way to store your private key, it is more secure than storing your private key in plain text. If you do not want to create a keystore, you can just press enter and continue without a wallet. You will then be asked to enter your private key, paste it in and press enter. You will then be prompted to create a password, make sure to appropriately back up both your private key/seed phrase and your password. Your keystore will then be created in `keystore.json` and you will be able to use 1inch-cli.
+To use a new wallet, simply move `keystore.json` out of the directory and run `./run.sh` again, you will be prompted to create a new keystore.
 
+if you don't know where to find your private key, follow this tutorial to get your private key from metamask https://support.metamask.io/hc/en-us/articles/360015289632-How-to-export-an-account-s-private-key
 ### Install from source
 
 Clone the repository:
@@ -50,15 +53,6 @@ $ source venv/bin/activate
 $ pip install -r requirements.txt
 ```
 
-Next, add your private key to environment variables, if you don't know where to find one, follow this tutorial to get your private key from metamask https://support.metamask.io/hc/en-us/articles/360015289632-How-to-export-an-account-s-private-key
-
-WARNING: this is an unencrypted hot wallet, be careful with your private key. Future updates will include a more secure way to store your private key (keystores & eventually hardware wallet), but for now, this is the only way to use the CLI.
-```bash
-export PRIVATE_KEY="0x<YOUR_KEY_HERE>"
-```
-
-## Usage
-
 To use the 1inch cli, run:
 
 ```
@@ -66,6 +60,13 @@ $ python main.py
 ```
 
 The script will guide you through the process of selecting the tokens to swap and the amount to exchange. 
+
+## Usage
+
+Upon running the script, the user will be prompted with many select modals, just type the number of the choice you'd like and hit enter.
+
+To select a token, either type the symbol of the token you'd like to select or the paste the address of the token.
+
 
 ## Features
 

@@ -74,24 +74,7 @@ class OneInch:
             with open(keystore_file, 'w') as f:
                 f.write(json.dumps(keystore))
             self.has_wallet = True
-        """
-        if private_key is not None:
-            if not private_key.startswith("0x"):
-                raise Exception("PRIVATE_KEY must start with 0x")
 
-            self.account = Account.from_key(private_key)
-            self.has_wallet = True
-
-        elif keystore is not None:
-
-            priv_key = Account.decrypt(open_json(keystore), getpass.getpass(prompt='Input keystore password: '))
-            self.account = Account.from_key(priv_key)
-            self.has_wallet = True
-        
-        else:
-            print("PRIVATE_KEY/KEYSTORE environment variables are not set, continuing without them")
-            self.has_wallet = False
-        """
         if self.has_wallet:
             self.w3.middleware_onion.add(construct_sign_and_send_raw_middleware(self.account))
 
