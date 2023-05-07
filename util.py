@@ -45,3 +45,29 @@ def find_token_in_files(chain_id, symbol):
 
     return None
 
+
+def fetch_coingecko_token(chain_id, address):
+    coingecko_chains = open_json(f"config/coingecko_chains.json")
+
+    chain = [c for c in coingecko_chains if c["chain_identifier"] == chain_id][0]['id']
+    
+    try:
+        # Coingecko accepts both checksum and non-checksummed addresses, so no need to convert
+        resp = requests.get(f"https://api.coingecko.com/api/v3/coins/{chain}/contract/{address}")
+        token = resp.json()
+
+        if "error" in token:
+            return None
+
+        # # Can't really use the check below due to edgecases such as wrapped tokens
+        # # that don't report any mcap or fdv
+        # mcap = token["market_data"]["market_cap"]["usd"]
+        # fdv = token["market_data"]["fully_diluted_valuation"]["usd"]
+        # # Some tokens have only fdv but no mcap entry
+        # if mcap == 0 and fdv == 0:
+        #     return None
+
+        return token
+
+    except:
+        return None

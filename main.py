@@ -16,7 +16,7 @@ from pyfiglet import Figlet
 
 f = Figlet(font='big')
 from one_inch import OneInch
-from util import open_json, find_token_in_files
+from util import open_json, find_token_in_files, fetch_coingecko_token
 from pprint import pprint
 
 sys.path.insert(0, os.path.abspath('..'))
@@ -106,7 +106,7 @@ class CLI:
             elif is_address(from_symbol):
                 potential_token = self.one_inch.get_token(from_symbol)
                 if potential_token is not None:
-                    print(f"Token found: {potential_token['symbol']}, use at your own risk")
+                    print(f"Token found by address: {potential_token['symbol']}, use at your own risk")
                     selected_token = potential_token
 
             # Otherwise we read through json files in ./config/token_lists/{chain_id}
@@ -116,18 +116,28 @@ class CLI:
 
             if selected_token is not None:
                 break
-    
+
         if selected_token["symbol"].upper() == self.currency.upper():
             selected_token["explorer_url"] = self.explorer
         else:
             selected_token["explorer_url"] = f"{self.explorer}token/{selected_token['address']}"
 
-        print(f"Selected token: {selected_token['symbol']}\nName: {selected_token['name']}\nAddress: {selected_token['explorer_url']}\nDecimals: {selected_token['decimals']}\n")
+
+        print(f"Selected token: {selected_token['symbol']}\nName: {selected_token['name']}\nAddress: {selected_token['explorer_url']}\nDecimals: {selected_token['decimals']}")
     
+
+        # Sanity check the token details by fetching data about token from coingecko 
+        coingecko_data = fetch_coingecko_token(self.chain_id, selected_token["address"])
+        if coingecko_data is None:
+            msg = "# No data about the selected token was found on coingecko! Proceed at your own risk #"
+            print(f"\n{'#'*len(msg)}\n{msg}\n{'#'*len(msg)}\n")
+
         return selected_token
 
 
     def select_pair(self):
+        # Just to give some space between menus and make sure the token selection stands out
+        print("")
         self.token_in = self.select_token(token_direction="from")
         self.token_out = self.select_token(token_direction="to")
         if self.token_in == self.token_out:
@@ -137,6 +147,8 @@ class CLI:
         self.select_amount()
 
     def select_amount(self):
+        # Just to give some space between menus and make sure the token selection stands out
+        print("")
         print("(NOTE: use -1 to select max amount available in wallet)")
         self.token_amount_in = prompt.query("Select amount:", validators=[NumberValidator()])
         if self.token_amount_in < 0:
