@@ -44,9 +44,15 @@ class OneInch:
         self.has_wallet = False
         keystore_file = './keystore.json'
         if os.path.isfile(keystore_file):
-            priv_key = Account.decrypt(open_json(keystore_file), getpass.getpass(prompt='Input keystore password: '))
-            self.account = Account.from_key(priv_key)
-            self.has_wallet = True
+            while True:
+                try:
+                    priv_key = Account.decrypt(open_json(keystore_file), getpass.getpass(prompt='Input keystore password: '))
+                    self.account = Account.from_key(priv_key)
+                    self.has_wallet = True
+                    break
+                except ValueError:
+                    # ValueError: MAC mismatch
+                    print("Keystore password isn't right, try again")
         else:
             print("keystore file not found, creating one")
             private_key = getpass.getpass(prompt='Input private key: ')
