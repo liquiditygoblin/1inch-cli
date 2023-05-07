@@ -9,19 +9,19 @@ import datetime
 from os import listdir
 from os.path import isfile, join
 
+from eth_utils.address import is_address
+
 from clint.textui.validators import ValidationError
 from pyfiglet import Figlet
 
 f = Figlet(font='big')
 from one_inch import OneInch
-from util import open_json
+from util import open_json, find_token_in_files
 from pprint import pprint
 
 sys.path.insert(0, os.path.abspath('..'))
 
 from clint.textui import prompt, puts, colored, validators
-
-
 
 
 def generate_selector(data):
@@ -31,8 +31,6 @@ def generate_selector(data):
         options.append({'selector': count, 'prompt': name, 'return': name})
         count += 1
     return options
-
-
 
 
 class NumberValidator(object):
@@ -85,49 +83,49 @@ class CLI:
             rpc_options = generate_selector(rpcs[str(self.chain_id)])
             self.rpc = rpcs[str(self.chain_id)][prompt.options("Select rpc:", rpc_options)]
 
-        self.select_token_list()
-
-    def select_token_list(self):
-        token_list_path = f"config/token_lists/{self.chain_id}/"
-        token_list_files = [f for f in listdir(token_list_path) if isfile(join(token_list_path, f))]
-        token_list_file = token_list_files[prompt.options("select token list:", token_list_files) - 1]
-        self.token_list = open_json(f"{token_list_path}{token_list_file}")
         self.select_pair()
+
+    # def select_token_list(self):
+    #     token_list_path = f"config/token_lists/{self.chain_id}/"
+    #     token_list_files = [f for f in listdir(token_list_path) if isfile(join(token_list_path, f))]
+    #     token_list_file = token_list_files[prompt.options("select token list:", token_list_files) - 1]
+    #     self.token_list = open_json(f"{token_list_path}{token_list_file}")
+    #     self.select_pair()
 
     def select_token(self, token_direction=""):
         while True:
+            selected_token = None
             from_symbol = prompt.query(f"Select {token_direction} token:")
+
+            # If from_symbol is native currency of a chain like ETH
             if from_symbol.upper() == self.currency.upper():
                 selected_token = {'symbol': self.currency, 'name': self.currency, 'address': "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE", 'decimals': 18}
-                print(
-                    f"Selected token: {selected_token['symbol']}\nName: {selected_token['name']}\nAddress: {self.explorer}\nDecimals: {selected_token['decimals']}\n")
-                return selected_token
-            potential_token = self.one_inch.get_token(from_symbol)
-            if potential_token is not None:
-                # user pasted address, load token from chain
-                print(f"Token found: {potential_token['symbol']}, use at your own risk")
-                selected_token = potential_token
-                print(
-                    f"Selected token: {selected_token['symbol']}\nName: {selected_token['name']}\nAddress: {self.explorer}token/{selected_token['address']}\nDecimals: {selected_token['decimals']}\n")
-                return selected_token
-            tokens = []
-            for token in self.token_list['tokens']:
-                if token['symbol'] == from_symbol.upper():
-                    tokens.append(token)
-            if len(tokens) == 0:
-                print("token not found")
-                continue
-            elif len(tokens) > 1:
-                # TODO: handle multiple tokens with same symbol
-                selected_token = tokens[0]
-                print(
-                    f"Selected token: {selected_token['symbol']}\nName: {selected_token['name']}\nAddress: {self.explorer}token/{selected_token['address']}\nDecimals: {selected_token['decimals']}\n")
-                return selected_token
+
+            # if from symbol is an address, we can to fetch details directory
+            # from the blockchain
+            elif is_address(from_symbol):
+                potential_token = self.one_inch.get_token(from_symbol)
+                if potential_token is not None:
+                    print(f"Token found: {potential_token['symbol']}, use at your own risk")
+                    selected_token = potential_token
+
+            # Otherwise we read through json files in ./config/token_lists/{chain_id}
+            # to try and find the token
             else:
-                selected_token = tokens[0]
-                print(
-                    f"Selected token: {selected_token['symbol']}\nName: {selected_token['name']}\nAddress: {self.explorer}token/{selected_token['address']}\nDecimals: {selected_token['decimals']}\n")
-                return selected_token
+                selected_token = find_token_in_files(self.chain_id, from_symbol)
+
+            if selected_token is not None:
+                break
+    
+        if selected_token["symbol"].upper() == self.currency.upper():
+            selected_token["explorer_url"] = self.explorer
+        else:
+            selected_token["explorer_url"] = f"{self.explorer}token/{selected_token['address']}"
+
+        print(f"Selected token: {selected_token['symbol']}\nName: {selected_token['name']}\nAddress: {selected_token['explorer_url']}\nDecimals: {selected_token['decimals']}\n")
+    
+        return selected_token
+
 
     def select_pair(self):
         self.token_in = self.select_token(token_direction="from")
