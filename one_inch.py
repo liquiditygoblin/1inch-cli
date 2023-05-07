@@ -2,6 +2,7 @@ import getpass
 import requests
 from eth_account import Account
 from eth_account.signers.local import LocalAccount
+from eth_utils.address import to_checksum_address
 from web3 import Web3, EthereumTesterProvider
 import web3
 from web3.middleware import construct_sign_and_send_raw_middleware
@@ -97,7 +98,7 @@ class OneInch:
         """
 
 
-        from_token_address = self.w3.to_checksum_address(from_token_address)
+        from_token_address = to_checksum_address(from_token_address)
 
         if amount < 0:
             if not self.has_wallet:
@@ -105,7 +106,7 @@ class OneInch:
                 amount = 100000
             else:
                 amount = self.get_balance(from_token_address)
-        to_token_address = self.w3.to_checksum_address(to_token_address)
+        to_token_address = to_checksum_address(to_token_address)
         url = f"https://api.1inch.io/v4.0/{self.chain_id}/quote?fromTokenAddress={from_token_address}&toTokenAddress={to_token_address}&amount={amount}&complexityLevel=3"
         response = requests.get(url=url).json()
         if self.has_wallet:
@@ -144,8 +145,8 @@ class OneInch:
         if self.get_balance(from_token_address) < amount:
             print("You don't have enough balance")
             return
-        from_token_address = self.w3.to_checksum_address(from_token_address)
-        to_token_address = self.w3.to_checksum_address(to_token_address)
+        from_token_address = to_checksum_address(from_token_address)
+        to_token_address = to_checksum_address(to_token_address)
         if amount < 0:
             amount = self.get_balance(from_token_address)
             if amount == 0:
@@ -159,8 +160,8 @@ class OneInch:
         return response
 
     def send_swap(self, from_token_address, to_token_address, amount, slippage=0.1):
-        from_token_address = self.w3.to_checksum_address(from_token_address)
-        to_token_address = self.w3.to_checksum_address(to_token_address)
+        from_token_address = to_checksum_address(from_token_address)
+        to_token_address = to_checksum_address(to_token_address)
         values = self.get_swap(from_token_address, to_token_address, amount, slippage)
         value = 0
         if from_token_address == NATIVE_TOKEN:
@@ -193,7 +194,7 @@ class OneInch:
         :type token_addr: str
         :return: Balance
         """
-        token_addr = self.w3.to_checksum_address(token_addr)
+        token_addr = to_checksum_address(token_addr)
         if token_addr == NATIVE_TOKEN:
             return self.w3.eth.get_balance(self.account.address)
         token_contract = self.w3.eth.contract(address=token_addr, abi=ERC20_ABI)
@@ -207,7 +208,7 @@ class OneInch:
         :type token_addr: str
         :return: Allowance
         """
-        token_addr = self.w3.to_checksum_address(token_addr)
+        token_addr = to_checksum_address(token_addr)
         if token_addr == NATIVE_TOKEN:
             return 2**255 - 1
         token_contract = self.w3.eth.contract(address=token_addr, abi=ERC20_ABI)
@@ -219,7 +220,7 @@ class OneInch:
         :param token_addr:
         :return:
         """
-        token_addr = self.w3.to_checksum_address(token_addr)
+        token_addr = to_checksum_address(token_addr)
 
         if token_addr == NATIVE_TOKEN:
             return "Unlimited"
@@ -233,7 +234,7 @@ class OneInch:
         :param token_addr:
         :return:
         """
-        token_addr = self.w3.to_checksum_address(token_addr)
+        token_addr = to_checksum_address(token_addr)
 
         if token_addr == NATIVE_TOKEN:
             balance = self.w3.eth.get_balance(self.account.address)
@@ -243,7 +244,7 @@ class OneInch:
         return f"{OneInch.parse_float(balance / 10 ** token_contract.functions.decimals().call())} {token_contract.functions.symbol().call()}"
 
     def approve_token(self, token_addr, amount):
-        token_addr = self.w3.to_checksum_address(token_addr)
+        token_addr = to_checksum_address(token_addr)
         if token_addr == NATIVE_TOKEN:
             print("You don't need to approve native token")
             return
@@ -261,7 +262,7 @@ class OneInch:
 
     def get_token(self, string):
         try:
-            addr = self.w3.to_checksum_address(string)
+            addr = to_checksum_address(string)
             token_contract = self.w3.eth.contract(address=addr, abi=ERC20_ABI)
             symbol = token_contract.functions.symbol().call()
             name = token_contract.functions.name().call()
