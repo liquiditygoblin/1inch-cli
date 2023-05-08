@@ -127,10 +127,12 @@ class CLI:
     
 
         # Sanity check the token details by fetching data about token from coingecko 
-        coingecko_data = fetch_coingecko_token(self.chain_id, selected_token["address"])
-        if coingecko_data is None:
-            msg = "# No data about the selected token was found on coingecko! Proceed at your own risk #"
-            print(f"\n{'#'*len(msg)}\n{msg}\n{'#'*len(msg)}\n")
+        # but we only want to check if token isn't the native currency
+        if selected_token["symbol"] != self.currency:
+            coingecko_data = fetch_coingecko_token(self.chain_id, selected_token["address"])
+            if coingecko_data is None:
+                msg = "# No data about the selected token was found on coingecko! Proceed at your own risk #"
+                print(f"\n{'#'*len(msg)}\n{msg}\n{'#'*len(msg)}\n")
 
         return selected_token
 
@@ -139,10 +141,11 @@ class CLI:
         # Just to give some space between menus and make sure the token selection stands out
         print("")
         self.token_in = self.select_token(token_direction="from")
+        print("")
         self.token_out = self.select_token(token_direction="to")
         if self.token_in == self.token_out:
             print("You can't swap the same token")
-            self.select_pair()
+            self.token_out = self.select_pair()
         print(f"Selected Pair {self.token_in['symbol']}->{self.token_out['symbol']}")
         self.select_amount()
 
