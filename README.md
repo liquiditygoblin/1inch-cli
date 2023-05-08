@@ -85,3 +85,6 @@ Contributions are welcome! Please feel free to submit a pull request or an issue
 
 This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
 
+## Referral Notice
+
+1inch-cli takes a small referral fee on each trade, if you find this tool useful & wish to self refer or remove this, please consider donating at `0xdb5D4e46AeE4Eb45768460abeEb03b6fB813819d`
