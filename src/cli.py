@@ -115,6 +115,8 @@ class CLI:
             if selected_token is not None:
                 break
 
+            print("Token not found")
+
         if selected_token["symbol"].upper() == self.currency.upper():
             selected_token["explorer_url"] = self.explorer
         else:
