@@ -3,6 +3,7 @@ from os import listdir
 from os.path import isfile, join
 import requests
 
+from .constants import CONFIG_PATH
 
 def open_json(file):
     with open(file) as f:
@@ -12,7 +13,7 @@ def open_json(file):
 def find_token_in_files(chain_id, symbol):
     symbol = symbol.upper()
 
-    token_list_path = f"config/token_lists/{chain_id}/"
+    token_list_path = f"{CONFIG_PATH}/token_lists/{chain_id}/"
     token_list_files = [f for f in listdir(token_list_path) if isfile(join(token_list_path, f))]
 
     for file in token_list_files:
@@ -47,7 +48,7 @@ def find_token_in_files(chain_id, symbol):
 
 
 def fetch_coingecko_token(chain_id, address):
-    coingecko_chains = open_json(f"config/coingecko_chains.json")
+    coingecko_chains = open_json(f"{CONFIG_PATH}/coingecko_chains.json")
 
     chain = [c for c in coingecko_chains if c["chain_identifier"] == chain_id][0]['id']
     

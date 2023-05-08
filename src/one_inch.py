@@ -9,11 +9,11 @@ from web3.middleware import construct_sign_and_send_raw_middleware
 import os
 import json
 
-from util import open_json
+from .util import open_json
+from .constants import ABI_PATH
 
-
-ERC20_ABI = open_json("abi/ERC20.json")
-ONE_INCH_ABI = open_json("abi/AggregationRouterV5.json")
+ERC20_ABI = open_json(f"{ABI_PATH}/ERC20.json")
+ONE_INCH_ABI = open_json(f"{ABI_PATH}/AggregationRouterV5.json")
 ONE_INCH_ROUTER = "0x1111111254fb6c44bAC0beD2854e76F90643097d"
 REFERRAL = "0xdb5D4e46AeE4Eb45768460abeEb03b6fB813819d"
 
